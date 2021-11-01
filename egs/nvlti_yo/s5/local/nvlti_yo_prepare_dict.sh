@@ -45,8 +45,13 @@ mkdir -p $dst_dir || exit 1;
 
 if [ $stage -le 0 ]; then
   echo "Combining and filtering text from train & dev"
-  awk '{$1=""}1' $train_text_path | awk '{$1=$1}1' > $vocab  || exit 1;
-  awk '{$1=""}1' $dev_text_path   | awk '{$1=$1}1' > $vocab  || exit 1;
+  awk '{$1=""}1' $train_text_path | awk '{$1=$1}1' >> $vocab  || exit 1;
+  awk '{$1=""}1' $dev_text_path   | awk '{$1=$1}1' >> $vocab  || exit 1;
+
+  echo "Lowercasing broken with underdot diacritics, grepping words, provisional lowercasing, sort and deduplicate"
+  cat $vocab | grep -o -E '\w+' | tr '[A-Z]' '[a-z]' | sort | uniq > 
+
+
 
 fi
 
