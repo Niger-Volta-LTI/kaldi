@@ -64,7 +64,27 @@ if [ $stage -le 2 ]; then
   local/g2p.py $vocab > $lexicon_raw_nosil || exit 1
 fi
 
+
 ############################################################################################
+# [abrupt] - possible cutoff of last syllable
+# [breath] - silence phone
+# [hesitation] - silence phone
+# [external] - non-human noise
+# [snap] - mouth noise 
+# 
+# silence (SIL),                ==> DAKE
+# spoken noise (SPN),           ==> ARIWOENU (ariwo ẹnu - mouth noises - "snap", UNK words)
+# non-spoken noise (NSN), and   ==> ariwo (non-verbal noise, external noise)
+# laughter (LAU):               N/A
+
+# Example:
+# [snap] ARIWOENU
+# [breath]    DAKE
+# [hesitation]  DAKE
+# [external]    ARIWO
+# [abrupt]    ???
+# <UNK> ARIWOENU
+
 # Generate other random files for Kaldi
 if [ $stage -le 3 ]; then
   silence_phones=$dst_dir/silence_phones.txt
@@ -73,8 +93,8 @@ if [ $stage -le 3 ]; then
   extra_questions=$dst_dir/extra_questions.txt
 
   echo "Preparing phone lists and clustering questions"
-  (echo SIL; echo SPN;) > $silence_phones
-  echo SIL > $optional_silence
+  (echo DAKE; echo ARIWO; echo ARIWOENU;) > $silence_phones
+  echo DAKE > $optional_silence
   # nonsilence phones; on each line is a list of phones that correspond
   # really to the same base phone.
   awk '{for (i=2; i<=NF; ++i) { print $i; gsub(/[0-9]/, "", $i); print $i}}' $lexicon_raw_nosil |\
@@ -82,8 +102,8 @@ if [ $stage -le 3 ]; then
     perl -e 'while(<>){
       chop; m:^([^\d]+)(\d*)$: || die "Bad phone $_";
       $phones_of{$1} .= "$_ "; }
-      foreach $list (values %phones_of) {print $list . "\n"; } ' | sort \
-      > $nonsil_phones || exit 1;
+      foreach $list (values %phones_of) {print $list . "\n"; } ' | sort > $nonsil_phones || exit 1;
+
   # A few extra questions that will be added to those obtained by automatically clustering
   # the "real" phones.  These ask about stress; there's also one for silence.
   cat $silence_phones| awk '{printf("%s ", $1);} END{printf "\n";}' > $extra_questions || exit 1;
@@ -97,8 +117,14 @@ if [ $stage -le 3 ]; then
 fi
 
 if [ $stage -le 4 ]; then
-  (echo '!SIL SIL'; echo '<SPOKEN_NOISE> SPN'; echo '<UNK> SPN'; ) |\
-  cat - $lexicon_raw_nosil | sort | uniq >$dst_dir/lexicon.txt
+  (echo '!DAKE DAKE'; 
+    echo '[snap] ARIWOENU';
+    echo '[breath] DAKE';
+    echo '[hesitation] DAKE';
+    echo '[external] ARIWO'
+    echo '<UNK> ARIWOENU'; 
+    ) |\
+  cat - $lexicon_raw_nosil | sort | uniq > $dst_dir/lexicon.txt
   echo "Lexicon text file saved as: $dst_dir/lexicon.txt"
 fi
 
