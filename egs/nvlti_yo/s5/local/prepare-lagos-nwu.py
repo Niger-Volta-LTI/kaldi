@@ -1,4 +1,6 @@
-# Kaldi data preparation for Lagos-NWU Speech Corpus from 
+#!/Users/iroro/anaconda3/bin/python
+
+# Kaldi data preparation for Lagos-NWU Speech Corpus from
 # https://repo.sadilar.org/handle/20.500.12185/431
 
 # This speech corpus consisting of 16 female speakers and 17 male speakers was 
@@ -68,7 +70,7 @@ if __name__ == "__main__":
 
     print("Preparing Lagos-NWU data into Kaldi format")
     parser = argparse.ArgumentParser(description="""Prepare data.""")
-    parser.add_argument('lagos_nwu_path', type=str, help='i.e. /Users/rebeiro/github/yoruba-asr/data/lagos-nwu-corpus/')
+    parser.add_argument('lagos_nwu_path', type=str, help='i.e. /Users/iroro/github/yoruba-asr/data/lagos-nwu-corpus/')
     parser.add_argument('out_dir', type=str, help='output directory, somewhere in the Kaldi recipe data directory')
     args = parser.parse_args()
 

@@ -1,4 +1,6 @@
-# Kaldi data preparation for Yoruba speech dataset from 
+#!/Users/iroro/anaconda3/bin/python
+
+# Kaldi data preparation for Yoruba speech dataset from
 # https://openslr.org/86/
 
 # This data set contains transcribed high-quality audio of Yoruba 
@@ -17,7 +19,7 @@ utt_id, transcript, spk_id, wav_file = [], [], [], []
 
 def prepare_gender_tsv(tsv, gender_folder_name):
     for row in tsv:
-        print(row)
+        # print(row)
         utt_id.append(row[0])
         transcript.append(row[1])
 
@@ -29,12 +31,12 @@ if __name__ == "__main__":
 
     print("Preparing OpenSLR86 data into Kaldi format")
     parser = argparse.ArgumentParser(description="""Prepare data.""")
-    parser.add_argument('slr86_path', type=str, help='i.e. /Users/rebeiro/github/yoruba-asr/data/slr86/')
+    parser.add_argument('slr86_path', type=str, help='i.e. /Users/iroro/github/yoruba-asr/data/slr86/')
     parser.add_argument('out_dir', type=str, help='output directory, somewhere in the Kaldi recipe data directory')
     args = parser.parse_args()
 
     path_prefix = args.slr86_path
-    print(path_prefix)
+    # print(path_prefix)
 
     with open(args.slr86_path + 'yo_ng_male/line_index.tsv', 'r', encoding='utf-8') as f_male, \
             open(args.slr86_path + 'yo_ng_female/line_index.tsv', 'r', encoding='utf-8') as f_female:

@@ -1,4 +1,4 @@
-#!/Users/rebeiro/anaconda3/bin/python
+#!/Users/iroro/anaconda3/bin/python
 
 # Grapheme-to-phoneme (G2P) conversion for Yorùbá using epitran & file of vocab words => X-SAMPA phonetic spellings
 

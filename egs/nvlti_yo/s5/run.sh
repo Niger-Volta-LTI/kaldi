@@ -3,8 +3,9 @@
 # Change this location to somewhere where you want to put the data.
 data=./data/
 
-lagos_nwu_corpus=/Users/rebeiro/github/yoruba-asr/data/slr86/
-slr86_corpus=/Users/rebeiro/github/yoruba-asr/data/lagos-nwu-corpus/
+lagos_nwu_corpus=/Users/iroro/github/yoruba-asr/data/lagos-nwu-corpus/
+slr86_corpus=/Users/iroro/github/yoruba-asr/data/slr86/
+
 # lm_url=www.openslr.org/resources/11
 
 . ./cmd.sh
@@ -34,7 +35,7 @@ fi
 #######################################################################
 if [ $stage -le 1 ]; then
 
-  # local/nvlti_yo_prepare_dict.sh --stage 0 --cmd "$train_cmd" data/train-clean-5 data/dev-clean-2 data/local/dict_nosp
+  local/nvlti_yo_prepare_dict.sh --stage 0 --cmd "$train_cmd" data/train-clean-5 data/dev-clean-2 data/local/dict_nosp
 
   utils/prepare_lang.sh data/local/dict_nosp "<UNK>" data/local/lang_tmp_nosp data/lang_nosp
 
