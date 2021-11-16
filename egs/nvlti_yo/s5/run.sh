@@ -19,7 +19,7 @@ set -euo pipefail
 mkdir -p $data
 
 # [IOHAVOC] don't yet need to download or untar into the right folder
-# for part in dev-clean-2 train-clean-5; do
+# for part in dev_clean_2 train_clean_5; do
 #   local/download_and_untar.sh $data $data_url $part
 # done
 
@@ -35,14 +35,16 @@ fi
 #######################################################################
 if [ $stage -le 1 ]; then
 
-  local/nvlti_yo_prepare_dict.sh --stage 0 --cmd "$train_cmd" data/train-clean-5 data/dev-clean-2 data/local/dict_nosp
+  local/nvlti_yo_prepare_dict.sh --stage 0 --cmd "$train_cmd" data/train_clean_5 data/dev_clean_2 data/local/dict_nosp
 
+  # Make L.fst
   utils/prepare_lang.sh data/local/dict_nosp "<UNK>" data/local/lang_tmp_nosp data/lang_nosp
 
+  # Make G.fst for (3gram small, med)
   local/format_lms.sh --src-dir data/lang_nosp data/local/lm
   
-  # Create ConstArpaLm format language model for full 3-gram and 4-gram LMs
-  utils/build_const_arpa_lm.sh data/local/lm/lm_tglarge.arpa.gz data/lang_nosp data/lang_nosp_test_tglarge
+  # Create ConstArpaLm format language model, G.fst for full 3-gram and 4-gram LMs
+  local/build_const_arpa_lm.sh data/local/lm/yo_lm_tglarge.arpa data/lang_nosp data/lang_nosp_test_tglarge
 fi
 
 
