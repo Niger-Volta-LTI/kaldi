@@ -89,7 +89,7 @@ if __name__ == "__main__":
         all_info.append([spkr_id, utterance_id, utterance_extended_filename, utt2transcript_dict[utterance_id]])
 
     # Make paths, we'll make Lagos-NWU the dev set (or we could mix it with OpenSLR and split it evenly)
-    kaldi_data_path_test = args.out_dir + "/dev-clean-2"
+    kaldi_data_path_test = args.out_dir + "/dev_clean_2"
     if not os.path.exists(kaldi_data_path_test):
         os.makedirs(kaldi_data_path_test)
 

@@ -47,8 +47,9 @@ if __name__ == "__main__":
         prepare_gender_tsv(male_tsv, "yo_ng_male")
         prepare_gender_tsv(female_tsv, "yo_ng_female")
 
+    print('All transcript utterances: {0}'.format(len(transcript)))
     # Make paths, we'll make SLR86 the training set (or we could mix it with Lagos-NWU and split it evenly)
-    kaldi_data_path_train = args.out_dir + "/train-clean-5"
+    kaldi_data_path_train = args.out_dir + "/train_clean_5"
     if not os.path.exists(kaldi_data_path_train):
         os.makedirs(kaldi_data_path_train)
 

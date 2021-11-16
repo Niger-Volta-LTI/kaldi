@@ -4,6 +4,7 @@ import argparse
 import string
 import unicodedata
 import sys
+import os
 
 # Remove punctuation from Unicode formatted strings:
 # https://stackoverflow.com/questions/11066400/remove-punctuation-from-unicode-formatted-strings/21635971#21635971
@@ -25,13 +26,19 @@ if __name__ == "__main__":
     vocab_dict = {}
     punctuation_table = str.maketrans(dict.fromkeys(string.punctuation))  # OR {key: None for key in string.punctuation}
     with open(args.big_text_file_path) as f:
-        for line in f:
-            words = remove_punctuation(line).lower().split()
-            for word in words:
-                if word not in vocab_dict:
-                    vocab_dict[word] = 1
-                else:
-                    vocab_dict[word] += 1
+        clean_output_text_no_punct = os.path.splitext(args.big_text_file_path)[0] + ".clean.txt"
+        with open(clean_output_text_no_punct, 'w') as output_file:
+            for line in f:
+                words = remove_punctuation(line).lower().split()
+                for word in words:
+                    if word not in vocab_dict:
+                        vocab_dict[word] = 1
+                    else:
+                        vocab_dict[word] += 1
+
+                clean_line = " ".join(words)
+                output_file.write(clean_line)
+                output_file.write('\n')
 
     # sort
     vocab_dict = sorted(vocab_dict)
