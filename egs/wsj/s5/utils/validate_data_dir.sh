@@ -92,7 +92,7 @@ export LC_ALL=C
 
 function check_sorted_and_uniq {
   ! perl -ne '((substr $_,-1) eq "\n") or die "file $ARGV has invalid newline";' $1 && exit 1;
-  ! awk '{print $1}' < $1 | sort -uC && echo "$0: file $1 is not sorted or has duplicates" && exit 1;
+  ! awk '{print $1}' < $1 | sort -uc && echo "$0: file $1 is not sorted or has duplicates" && exit 1;
 }
 
 function partial_diff {
@@ -105,7 +105,7 @@ function partial_diff {
 check_sorted_and_uniq $data/utt2spk
 
 if ! $no_spk_sort; then
-  ! sort -k2 -C $data/utt2spk && \
+  ! sort -k2 -c $data/utt2spk && \
      echo "$0: utt2spk is not in sorted order when sorted first on speaker-id " && \
      echo "(fix this by making speaker-ids prefixes of utt-ids)" && exit 1;
 fi
