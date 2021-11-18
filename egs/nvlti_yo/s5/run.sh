@@ -28,6 +28,10 @@ if [ $stage -le 0 ]; then
   # format the data as Kaldi data directories
   local/prepare-lagos-nwu.py $lagos_nwu_corpus $data
   local/prepare-slr86.py $slr86_corpus $data
+
+  # don't forget spk2utt
+  utils/utt2spk_to_spk2utt.pl $data/train_clean_5/utt2spk > $data/train_clean_5/spk2utt
+  utils/utt2spk_to_spk2utt.pl $data/dev_clean_2/utt2spk > $data/dev_clean_2/spk2utt
   echo "$0: Prepared lagos-nwu & slr86 datasets into ${data}"
 fi
 
@@ -51,13 +55,6 @@ fi
 #######################################################################
 if [ $stage -le 2 ]; then
   mfccdir=mfcc
-  # spread the mfccs over various machines, as this data-set is quite large.
-  if [[  $(hostname -f) ==  *.clsp.jhu.edu ]]; then
-    mfcc=$(basename mfccdir) # in case was absolute pathname (unlikely), get basename.
-    utils/create_split_dir.pl /export/b{07,14,16,17}/$USER/kaldi-data/egs/librispeech/s5/$mfcc/storage \
-      $mfccdir/storage
-  fi
-
   for part in dev_clean_2 train_clean_5; do
     steps/make_mfcc.sh --cmd "$train_cmd" --nj 10 data/$part exp/make_mfcc/$part $mfccdir
     steps/compute_cmvn_stats.sh data/$part exp/make_mfcc/$part $mfccdir

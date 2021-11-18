@@ -15,6 +15,8 @@ import glob
 import os
 import unicodedata
 
+from utils import write_text, write_wavscp, write_utt2spk
+
 # ...lagos-nwu-corpus/male/024/recordings/024_yoruba_male_headset_0074.wav
 # ...lagos-nwu-corpus/<gender>/<spkid>/recordings/utterance.wav
 
@@ -35,35 +37,8 @@ def make_transcript_dictionary(paths):
                 line_split = line.split("\"")
                 utterance_id = line_split[0].split("(")[1].strip()
                 transcript = line_split[1]
-                h[utterance_id] = unicodedata.normalize("NFC", transcript)      #  because data is NFC
+                h[utterance_id] = unicodedata.normalize("NFC", transcript)   # because data is NFC
     return h
-
-
-def write_text(file_infos):
-    results = []
-    for info in file_infos:
-        utt_id = info[1]
-        transcript = info[3]
-        results.append("{} {}".format(utt_id, transcript))
-    return '\n'.join(sorted(results))
-
-
-def write_wavscp(file_infos):
-    results = []
-    for info in file_infos:
-        utt_id = info[1]
-        utterance_filename = info[2]
-        results.append("{} {}".format(utt_id, utterance_filename))
-    return '\n'.join(sorted(results))
-
-
-def write_utt2spk(file_infos):
-    results = []
-    for info in file_infos:
-        spkr = info[0]
-        utt_id = info[1]
-        results.append("{} {}".format(utt_id, spkr))
-    return '\n'.join(sorted(results))
 
 
 if __name__ == "__main__":
@@ -100,3 +75,6 @@ if __name__ == "__main__":
         f_text.writelines(write_text(all_info))         # text: utterance_id -> transcript
         f_wav.writelines(write_wavscp(all_info))        # wav scp: utterance_id -> audio path
         f_utt2spk.writelines(write_utt2spk(all_info))   # utt2spk: utterance_id -> speaker
+
+        # ensure the files terminate w/ a newline, so that the validation perl script doesn't choke later
+        f_wav.write("\n"), f_text.write("\n"), f_utt2spk.write("\n")
