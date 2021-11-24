@@ -1,4 +1,4 @@
-#!/Users/iroro/anaconda3/bin/python
+#!/usr/bin/env python3
 
 import argparse
 import string

@@ -1,4 +1,4 @@
-#!/Users/iroro/anaconda3/bin/python
+#!/usr/bin/env python3
 
 # Kaldi data preparation for Lagos-NWU Speech Corpus from
 # https://repo.sadilar.org/handle/20.500.12185/431

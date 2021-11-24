@@ -116,7 +116,9 @@ if [ $stage -le 7 ]; then
 
   local/format_lms.sh --src-dir data/lang data/local/lm
 
-  utils/build_const_arpa_lm.sh data/local/lm/lm_tglarge.arpa.gz data/lang data/lang_test_tglarge
+  # utils/build_const_arpa_lm.sh data/local/lm/lm_tglarge.arpa.gz data/lang data/lang_test_tglarge
+  local/build_const_arpa_lm.sh data/local/lm/yo_lm_tglarge.arpa data/lang data/lang_test_tglarge
+
 
   steps/align_fmllr.sh --nj 5 --cmd "$train_cmd" data/train_clean_5 data/lang exp/tri3b exp/tri3b_ali_train_clean_5
 fi

@@ -1,4 +1,4 @@
-#!/Users/iroro/anaconda3/bin/python
+#!/usr/bin/env python3
 
 # Kaldi data preparation for Yoruba speech dataset from
 # https://openslr.org/86/
