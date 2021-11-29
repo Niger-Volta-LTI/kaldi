@@ -3,13 +3,21 @@
 # Change this location to somewhere where you want to put the data.
 data=./data/
 
-lagos_nwu_corpus=/Users/iroro/github/yoruba-asr/data/lagos-nwu-corpus/
-slr86_corpus=/Users/iroro/github/yoruba-asr/data/slr86/
-
-# lm_url=www.openslr.org/resources/11
-
 . ./cmd.sh
 . ./path.sh
+
+# Setup paths per operating system
+if [ "$(uname)" == "Darwin" ]; then                           #  Mac OS X platform
+
+  lagos_nwu_corpus=/Users/iroro/github/yoruba-asr/data/lagos-nwu-corpus/
+  slr86_corpus=/Users/iroro/github/yoruba-asr/data/slr86/
+
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then    # GNU/Linux platform (AWS Spot)
+
+  lagos_nwu_corpus=/home/ubuntu/github/yoruba-asr/data/lagos-nwu-corpus/
+  slr86_corpus=/home/ubuntu/github/yoruba-asr/data/slr86/
+  export LD_LIBRARY_PATH=/home/ubuntu/github/Kaldi/tools/openfst-1.7.2/lib:/home/ubuntu/github/Kaldi/src/base:/home/ubuntu/github/Kaldi/src/chain:/home/ubuntu/github/Kaldi/src/decoder:/home/ubuntu/github/Kaldi/src/feat:/home/ubuntu/github/Kaldi/src/fstext:/home/ubuntu/github/Kaldi/src/gmm:/home/ubuntu/github/Kaldi/src/hmm:/home/ubuntu/github/Kaldi/src/ivector:/home/ubuntu/github/Kaldi/src/kws:/home/ubuntu/github/Kaldi/src/lat:/home/ubuntu/github/Kaldi/src/lm:/home/ubuntu/github/Kaldi/src/matrix:/home/ubuntu/github/Kaldi/src/nnet:/home/ubuntu/github/Kaldi/src/nnet2:/home/ubuntu/github/Kaldi/src/nnet3:/home/ubuntu/github/Kaldi/src/online2:/home/ubuntu/github/Kaldi/src/rnnlm:/home/ubuntu/github/Kaldi/src/sgmm2:/home/ubuntu/github/Kaldi/src/transform:/home/ubuntu/github/Kaldi/src/tree:/home/ubuntu/github/Kaldi/src/util
+fi
 
 
 stage=0
