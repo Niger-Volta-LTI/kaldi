@@ -25,9 +25,9 @@ if __name__ == "__main__":
 
     vocab_dict = {}
     punctuation_table = str.maketrans(dict.fromkeys(string.punctuation))  # OR {key: None for key in string.punctuation}
-    with open(args.big_text_file_path) as f:
+    with open(args.big_text_file_path, encoding="utf-8") as f:
         clean_output_text_no_punct = os.path.splitext(args.big_text_file_path)[0] + ".clean.txt"
-        with open(clean_output_text_no_punct, 'w') as output_file:
+        with open(clean_output_text_no_punct, 'w', encoding="utf-8") as output_file:
             for line in f:
                 words = remove_punctuation(line).lower().split()
                 for word in words:

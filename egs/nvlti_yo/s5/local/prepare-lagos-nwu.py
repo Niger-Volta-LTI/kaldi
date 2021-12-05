@@ -32,7 +32,7 @@ def make_transcript_dictionary(paths):
     # print(all_transcript_paths)
 
     for path in all_transcript_paths:
-        with open(path, 'r') as file_reader:
+        with open(path, encoding="utf-8") as file_reader:
             for line in file_reader:
                 line_split = line.split("\"")
                 utterance_id = line_split[0].split("(")[1].strip()

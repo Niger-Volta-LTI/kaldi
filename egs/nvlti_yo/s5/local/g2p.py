@@ -29,7 +29,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     word_list, xsampa_word_list = [], []
-    with open(args.vocab_file_path, 'r') as vocab_reader:
+    with open(args.vocab_file_path, encoding='utf-8') as vocab_reader:
         for word in vocab_reader:
             word_list.append(word.strip())
 
